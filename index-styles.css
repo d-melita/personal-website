@@ -1,0 +1,106 @@
+:root {
+    font-family: "Lucida Console", monospace;
+    color: wheat;
+    --bg-color: #000000;
+    background-color: var(--bg-color);
+}
+
+body{
+    display: grid;
+}
+
+body main h1,
+body main p {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    left: 50%;
+    font-size: clamp(1rem, 5vw, 1.9rem);
+}
+
+body main h1 {
+    top: 35%;
+    text-align: center;
+}
+
+body main h1 {
+    content: "";
+    position: absolute;
+}
+
+body main h3,
+body main p {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    left: 50%;
+    font-size: clamp(1rem, 5vw, 1.5rem);
+}
+
+body main h3 {
+    top: 40%;
+    text-align: center;
+}
+
+body main h3 {
+    content: "";
+    position: absolute;
+}
+
+#about-me {
+    color: wheat;
+    top: 50%;
+    transition: all 0.3s ease-in-out;
+    font-size: clamp(1rem, 5vw, 1.9rem);
+}
+
+#about-me:hover {
+    color: white;
+}
+
+#redirect-icons {
+    display: flex;
+    justify-content: space-between;
+    height: 75px;
+    width: 250px;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 70%;
+    transform: translate(-50%, 50%);
+}
+
+#redirect-icons img {
+    filter: invert(85%);
+}
+
+#github-icon {
+    width: 100%;
+    height: 100%;
+    margin: 5%;
+    transition: all 0.3s ease-in-out;
+}
+
+#github-icon:hover {
+    filter: brightness(150%);
+}
+
+#insta-icon {
+    width: 100%;
+    height: 100%;
+    margin: 5%;
+    transition: all 0.3s ease-in-out;
+}
+
+#insta-icon:hover {
+    filter: brightness(150%);
+}
+
+#linkedin-icon {
+    width: 100%;
+    height: 100%;
+    margin: 5%;
+    transition: all 0.3s ease-in-out;
+}
+
+#linkedin-icon:hover {
+    filter: brightness(150%);
+}
