@@ -1,7 +1,7 @@
 :root {
     font-family: "Lucida Console", monospace;
-    color: wheat;
-    --bg-color: #000000;
+    color: lightgoldenrodyellow;
+    --bg-color: #222222;
     background-color: var(--bg-color);
 }
 
@@ -27,6 +27,27 @@ body main h1 {
     position: absolute;
 }
 
+.typewriter h1{
+    overflow: hidden;
+    border-right: .15em solid gold;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.1em;
+    animation:
+        typing 4s steps(50, end),
+        blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to {border-color: transparent}
+    50% {border-color:  gold;}
+}
+
 body main h3,
 body main p {
     position: absolute;
@@ -46,7 +67,7 @@ body main h3 {
 }
 
 #about-me {
-    color: wheat;
+    color: lightgoldenrodyellow;
     top: 50%;
     transition: all 0.3s ease-in-out;
     font-size: clamp(1rem, 5vw, 1.9rem);
@@ -64,7 +85,7 @@ body main h3 {
     position: absolute;
     left: 50%;
     right: 50%;
-    top: 70%;
+    top: 65%;
     transform: translate(-50%, 50%);
 }
 

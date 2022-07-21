@@ -1,0 +1,33 @@
+:root {
+    font-family: "Lucida Console", monospace;
+    color: lightgoldenrodyellow;
+    --bg-color: #222222;
+    background-color: var(--bg-color);
+}
+
+.about-me {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    top: 20%
+}
+
+#ist {
+    text-decoration: none;
+    color: dodgerblue;
+    transition: all 0.3s ease-in-out;
+}
+
+#ist:hover{
+    color: white;
+}
+
+#cv-link {
+    text-decoration: none;
+    color: dodgerblue;
+    transition: all 0.3s ease-in-out;
+}
+
+#cv-link:hover{
+    color: white;
+}
