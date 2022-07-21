@@ -28,7 +28,9 @@ body main h1 {
 }
 
 .typewriter h1{
+    width: auto;
     overflow: hidden;
+    display: inline-block;
     border-right: .15em solid gold;
     white-space: nowrap;
     margin: 0 auto;
@@ -39,8 +41,8 @@ body main h1 {
 }
 
 @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
+    from { max-width: 0 }
+    to { max-width: 100% }
 }
 
 @keyframes blink-caret {
