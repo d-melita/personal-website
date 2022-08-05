@@ -38,6 +38,16 @@ template.innerHTML = `
     #source-code:hover {
         color: white;
     }
+
+    #email {
+        color: lightgoldenrodyellow;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    #email:hover {
+        color: white;
+    }
     
     </style>
     <header>
@@ -48,7 +58,10 @@ template.innerHTML = `
     <footer>
         <div class = "template-footer">
             <div id = "fbox1">
-                <p> e-mail: diogo@melita.pt </p>
+                <p><a id = "email" 
+                href="mailto:diogo@melita.pt">
+                contact me via e-mail
+                </a></p>
                 <a
                     id = "source-code"
                     href="https://github.com/d-melita/personal-website"
