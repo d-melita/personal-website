@@ -1,0 +1,27 @@
+{
+    "github": {
+      "silent": true
+    },
+  
+    "cleanUrls": true,
+    "trailingSlash": false,
+  
+    "redirects": [
+      {
+        "source": "/github",
+        "destination": "https://github.com/d-melita"
+      },
+      {
+        "source": "/gh",
+        "destination": "https://github.com/d-melita"
+      },
+      {
+        "source": "/insta",
+        "destination": "https://instagram.com/_dmelita"
+      },
+      {
+        "source": "/twitter",
+        "destination": "https://twitter.com/_dmelita"
+      }
+    ]
+}
