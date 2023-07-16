@@ -70,7 +70,7 @@ body main h3 {
 
 #about-me {
     color: lightgoldenrodyellow;
-    top: 50%;
+    top: 65%;
     transition: all 0.3s ease-in-out;
     font-size: clamp(1rem, 5vw, 1.9rem);
 }
