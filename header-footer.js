@@ -9,6 +9,18 @@ template.innerHTML = `
         position: absolute;
         left: 2.5%;
     }
+
+    #about-template {
+        font-size: clamp(1rem, 1vw, 1rem);
+        color: lightgoldenrodyellow;
+        text-decoration: none;
+        position: absolute;
+        left: 10.5%;
+    }
+
+    #header-template:hover, #about-template:hover {
+        filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
+    }
     
     .template-footer {
         font-size: 15px;
@@ -36,7 +48,7 @@ template.innerHTML = `
     }
 
     #source-code:hover {
-        color: white;
+        filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
     }
 
     #email {
@@ -46,7 +58,8 @@ template.innerHTML = `
     }
 
     #email:hover {
-        color: white;
+        filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
+
     }
     
     </style>
@@ -55,6 +68,13 @@ template.innerHTML = `
             <h1>home</h1>
         </a>
     </header>
+
+    <about>
+        <a id = "about-template" href= "aboutme.html">
+            <h1>about me</h1>
+        </a>
+    </about>
+
     <footer>
         <div class = "template-footer">
             <div id = "fbox1">
