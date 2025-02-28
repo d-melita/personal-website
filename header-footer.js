@@ -1,97 +1,84 @@
 const template = document.createElement("template");
 template.innerHTML = `
     <style>
-    
-    #header-template {
-        font-size: clamp(1rem, 1vw, 1rem);
-        color: lightgoldenrodyellow;
-        text-decoration: none;
-        position: absolute;
-        left: 2.5%;
+    header, footer {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        background: var(--bg-color);
     }
 
-    #about-template {
-        font-size: clamp(1rem, 1vw, 1rem);
-        color: lightgoldenrodyellow;
-        text-decoration: none;
-        position: absolute;
-        left: 10.5%;
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        padding-left: 15px;  /* Adjusted padding for left alignment */
+        font-family: "Lucida Console", monospace; /* Matching the body font */
     }
 
-    #header-template:hover, #about-template:hover {
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    #header-template, #about-template {
+        font-size: clamp(1.5rem, 2vw, 2rem); /* Larger font size */
+        color: lightgoldenrodyellow;
+        text-decoration: none;
+        margin: 0 15px;
+    }
+
+    #header-template:hover, #about-template:hover, 
+    #source-code:hover, #email:hover {
         filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
     }
-    
+
     .template-footer {
-        font-size: 15px;
         display: flex;
-        justify-content: space-between;
         flex-direction: column;
-        height: 100px;
-        width: 350px;
-        position: absolute;
-        left: 50%;
-        top: 80%;
-        transform: translate(-50%, 50%);
-    }
-    
-    #fbox1 {
-        width: 100%;
-        height: 100%;
+        align-items: center;
         text-align: center;
     }
-    
-    #source-code {
+
+    #source-code, #email {
         color: lightgoldenrodyellow;
         text-decoration: none;
         transition: all 0.3s ease;
     }
 
-    #source-code:hover {
-        filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
-    }
-
-    #email {
-        color: lightgoldenrodyellow;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    #email:hover {
-        filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
-
-    }
-    
     </style>
+    
     <header>
-        <a id = "header-template" href= "index.html">
-            <h1>home</h1>
-        </a>
+        <a id="header-template" href="index.html">home</a>
+        <a id="about-template" href="aboutme.html">about me</a>
     </header>
 
-    <about>
-        <a id = "about-template" href= "aboutme.html">
-            <h1>about me</h1>
-        </a>
-    </about>
-
     <footer>
-        <div class = "template-footer">
-            <div id = "fbox1">
-                <p><a id = "email" 
-                href="mailto:diogo@melita.pt">
-                contact me via e-mail
-                </a></p>
-                <a
-                    id = "source-code"
-                    href="https://github.com/d-melita/personal-website"
-                    target = "_blank"
-                >
-                <p>source code @ github</p>
-                </a>
-            </div>
+        <div class="template-footer">
+            <p><a id="email" href="mailto:diogo@melita.pt">contact me via e-mail</a></p>
+            <p><a id="source-code" href="https://github.com/d-melita/personal-website" target="_blank">source code @ github</a></p>
         </div>
     </footer>
 `;
 
 document.body.appendChild(template.content);
+document.addEventListener("DOMContentLoaded", function () {
+  const textElement = document.querySelector(".typewriter h1");
+  const text = textElement.textContent.trim();
+  textElement.textContent = ""; // Clear initial text
+
+  let i = 0;
+  function typeWriter() {
+    if (i < text.length) {
+      textElement.textContent += text[i];
+      i++;
+      setTimeout(typeWriter, 55); // Adjust speed here
+    }
+  }
+
+  typeWriter();
+});

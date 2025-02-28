@@ -1,107 +1,88 @@
 :root {
-    font-family: "Lucida Console", monospace;
-    color: lightgoldenrodyellow;
-    --bg-color: #222222;
-    background-color: var(--bg-color);
+  font-family: "Lucida Console", monospace;
+  color: lightgoldenrodyellow;
+  --bg-color: #222222;
+  background-color: var(--bg-color);
 }
 
-body{
-    display: grid;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  max-width: 100vw; /* Prevents overflow */
+  overflow-x: hidden;
+  text-align: center;
+  padding: 0 10px;
+  margin: 0;
 }
 
-body main h1,
-body main p {
-    position: absolute;
-    transform: translate(-50%, 50%);
-    left: 50%;
-    font-size: clamp(1rem, 5vw, 1.9rem);
+/* Typewriter Effect */
+/* Typewriter Effect */
+.typewriter {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
-body main h1 {
-    top: 35%;
-    text-align: center;
-}
-
-body main h1 {
-    content: "";
-    position: absolute;
-}
-
-.typewriter h1{
-    width: auto;
-    overflow: hidden;
-    display: inline-block;
-    border-right: .15em solid gold;
-    white-space: nowrap;
-    margin: 0 auto;
-    letter-spacing: 0.1em;
-    animation:
-        typing 4s steps(64, end),
-        blink-caret .75s step-end infinite;
-}
-
-@keyframes typing {
-    from { max-width: 0 }
-    to { max-width: 100% }
+.typewriter h1 {
+  overflow: hidden;
+  border-right: 0.15em solid gold;
+  display: inline-block;
+  letter-spacing: 0.1em;
+  font-size: clamp(1.5rem, 8vw, 3rem);
+  max-width: 90vw; /* Prevents overflow */
+  white-space: normal; /* Allows wrapping */
+  word-break: break-word; /* Ensures words break properly */
+  animation: blink-caret 0.75s step-end infinite;
 }
 
 @keyframes blink-caret {
-    from, to {border-color: transparent}
-    50% {border-color:  gold;}
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: gold;
+  }
 }
 
-body main h3,
-body main p {
-    position: absolute;
-    transform: translate(-50%, 50%);
-    left: 50%;
-    font-size: clamp(1rem, 5vw, 1.5rem);
+/* Headings */
+h1 {
+  font-size: clamp(1.5rem, 8vw, 3rem);
 }
 
-body main h3 {
-    top: 40%;
-    text-align: center;
+h3 {
+  font-size: clamp(1rem, 5vw, 2rem);
+  margin-bottom: 10px;
 }
 
-body main h3 {
-    content: "";
-    position: absolute;
-}
-
-#about-me {
-    color: lightgoldenrodyellow;
-    top: 50%;
-    transition: all 0.3s ease-in-out;
-    font-size: clamp(1rem, 5vw, 1.9rem);
-}
-
-#about-me:hover {
-    color: white;
-}
-
+/* Icons Section */
 #redirect-icons {
-    display: flex;
-    justify-content: space-between;
-    height: 75px;
-    width: 250px;
-    position: absolute;
-    left: 50%;
-    right: 50%;
-    top: 65%;
-    transform: translate(-50%, 50%);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 20px;
 }
 
 #redirect-icons img {
-    filter: invert(85%);
+  filter: invert(85%);
+  width: clamp(30px, 10vw, 50px);
+  height: clamp(30px, 10vw, 50px);
+  transition: transform 0.3s ease;
 }
 
-#github-icon, #linkedin-icon {
-    width: 30%;
-    height: 30%;
-    margin: 5%;
-    transition: all 0.3s ease-in-out;
+#redirect-icons img:hover {
+  transform: scale(1.1);
 }
 
-#github-icon:hover, #linkedin-icon:hover {
-    filter: brightness(0) saturate(100%) invert(30%) sepia(100%) saturate(500%) hue-rotate(180deg);
+/* Responsive Design */
+@media (max-width: 768px) {
+  #redirect-icons {
+    flex-direction: column;
+    align-items: center;
+  }
 }
