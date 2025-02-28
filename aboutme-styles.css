@@ -5,29 +5,61 @@
   background-color: var(--bg-color);
 }
 
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensure the body takes up full height */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+}
+
+main {
+  width: 100%;
+  max-width: 960px; /* Optional: set a max-width for large screens */
+  padding: 20px; /* Padding to avoid content touching edges */
+  box-sizing: border-box; /* Ensures padding is included in width calculation */
+  overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+}
+
 .about-me {
-  position: absolute;
-  left: 15%;
-  right: 15%;
-  top: 20%;
+  text-align: left; /* Set text to left-aligned */
+  padding: 10px;
+  margin: 0 5%; /* Responsive margins to prevent cutting off */
+  box-sizing: border-box; /* Include padding and margin in the width calculation */
 }
 
-#ist {
-  text-decoration: none;
-  color: dodgerblue;
-  transition: all 0.3s ease-in-out;
-}
-
-#ist:hover {
-  color: white;
-}
-
+#ist,
 #cv-link {
   text-decoration: none;
   color: dodgerblue;
   transition: all 0.3s ease-in-out;
 }
 
+#ist:hover,
 #cv-link:hover {
   color: white;
+}
+
+p {
+  text-align: justify; /* Justify the paragraphs */
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+  .about-me {
+    margin: 0 3%; /* Decrease margins for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 10px; /* Adjust padding for very small screens */
+  }
+  .about-me {
+    margin: 0 2%; /* Further reduce margins */
+  }
 }
