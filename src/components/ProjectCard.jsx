@@ -47,6 +47,17 @@ export const ProjectCard = forwardRef(({ project, index }, ref) => {
   const colors = termColors[index % termColors.length];
   const t = isDark ? "dark" : "light";
 
+  const hasGithub = !!project.github;
+  const githubUrl = hasGithub
+    ? (project.github.startsWith("http") ? project.github : `https://github.com/${project.github}`)
+    : "";
+  const githubRepoPath = hasGithub
+    ? project.github.replace(/https?:\/\/(www\.)?github\.com\//, "").replace(/\/$/, "")
+    : "";
+  const cloneDisplayPath = hasGithub
+    ? `https://github.com/${githubRepoPath}.git`
+    : `diogo-melita/${project.title.toLowerCase().replace(/\s+/g, "-")}.git`;
+
   // Combine parent's callback/object ref and internal ref
   const setRefs = (node) => {
     internalRef.current = node;
@@ -246,6 +257,48 @@ export const ProjectCard = forwardRef(({ project, index }, ref) => {
                   </Stack>
                 </Box>
               </Box>
+
+              {/* Command 3.5: Paper (cat publication.txt) */}
+              {project.paper && (
+                <Box>
+                  <Typography
+                    component="div"
+                    sx={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.72rem",
+                      color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)",
+                      mb: 0.5,
+                    }}
+                  >
+                    <Box component="span" sx={{ color: "primary.main" }}>$</Box> cat publication.txt
+                  </Typography>
+                  <Box sx={{ pl: 1.5 }}>
+                    <Button
+                      component="a"
+                      href={project.paper}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      endIcon={<OpenInNewRoundedIcon sx={{ fontSize: 11 }} />}
+                      size="small"
+                      sx={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "0.72rem",
+                        color: colors.accent[t],
+                        textTransform: "none",
+                        p: 0,
+                        minWidth: 0,
+                        textAlign: "left",
+                        "&:hover": {
+                          textDecoration: "underline",
+                          backgroundColor: "transparent",
+                        },
+                      }}
+                    >
+                      Bonsai: A Recovery Approach for Ethereum ERC-20 Transactions (IEEE NCA)
+                    </Button>
+                  </Box>
+                </Box>
+              )}
             </Stack>
 
             {/* Command 4: GitHub Link (git clone) */}
@@ -266,14 +319,14 @@ export const ProjectCard = forwardRef(({ project, index }, ref) => {
                   mb: 0.5,
                 }}
               >
-                <Box component="span" sx={{ color: "primary.main" }}>$</Box> git clone {project.github ? `https://github.com/${project.github}.git` : `diogo-melita/${project.title.toLowerCase().replace(/\s+/g, "-")}.git`}
+                <Box component="span" sx={{ color: "primary.main" }}>$</Box> git clone {cloneDisplayPath}
               </Typography>
               
               <Box sx={{ pl: 1.5 }}>
                 {project.github ? (
                   <Button
                     component="a"
-                    href={`https://github.com/${project.github}`}
+                    href={githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     endIcon={<OpenInNewRoundedIcon sx={{ fontSize: 11 }} />}

@@ -62,26 +62,19 @@ export const projects = [
   {
     title: "Sui Groups",
     description:
-      "A social grouping and coordination project on Sui, blending product thinking with chain-native interactions.",
+      "A Web3 application that was 5th place at the BSA - EPFL | Stablecoins & Payments Hackathon. Written in Move, SUI's Rust-based programming language. It presents an MVP for a community based Social Media, where users can send messages, create groups, and interact with each other in a decentralized way.",
     tags: ["Move", "TypeScript/React", "Sui Blockchain"],
-    github: "",
+    github: "https://github.com/d-melita/sui-hackathon",
     status: "latest // deployed",
   },
   {
     title: "Bonsai",
     description:
-      "An application focused on clean user experience and on-chain interactions for an EVM environment.",
+      "Bonsai is an error and intrusion recovery system for Ethereum-based token exchanges, built for my Master's thesis and published in a peer-reviewed paper. It introduces BON, an ERC-20 token pegged 1:1 to ETH, that lets users reverse fraudulent or mistaken transfers through decentralized arbitration — without breaking blockchain's core guarantees of immutability and non-repudiation.",
     tags: ["Solidity", "React", "EVM"],
-    github: "",
+    github: "https://github.com/d-melita/bonsai",
     status: "v0.x // stable",
-  },
-  {
-    title: "Project WELL",
-    description:
-      "A systems and smart-contract project exploring secure workflows and verification on EVM tooling.",
-    tags: ["Solidity", "Foundry", "EVM"],
-    github: "",
-    status: "v0.x // stable",
+    paper: "https://ieeexplore.ieee.org/document/11261562",
   },
 ];
 
