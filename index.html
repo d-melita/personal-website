@@ -1,40 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="description" name="description" />
+    <meta
+      content="Diogo Melita's personal website, built as a React frontend with projects, links, and contact information."
+      name="description"
+    />
     <meta name="google" content="notranslate" />
     <meta name="msapplication-tap-highlight" content="no" />
 
-    <link rel="shortcut icon" href="assets/icon.svg" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-      type="text/css"
-      href="index-styles.css"
-      media="screen"
     />
-    <script src="header-footer.js" type="text/javascript" defer></script>
+
+    <link rel="shortcut icon" href="assets/icon.svg" type="image/x-icon" />
+    <meta name="theme-color" content="#0a0e1a" />
+
+    <script type="module" src="/src/main.jsx"></script>
 
     <title>Diogo Melita</title>
   </head>
   <body>
-    <main>
-      <div class="typewriter">
-        <h1>heyo! i'm melita, diogo melita 😎</h1>
-      </div>
-      <div>
-        <h3>Blockchain Researcher @ INESC-ID</h3>
-      </div>
-      <div id="redirect-icons">
-        <a href="https://github.com/d-melita" target="_blank">
-          <img src="assets/github.svg" alt="GitHub" />
-        </a>
-        <a href="https://www.linkedin.com/in/diogo-melita/" target="_blank">
-          <img src="assets/linkedin.svg" alt="LinkedIn" />
-        </a>
-      </div>
-    </main>
+    <div id="root"></div>
   </body>
 </html>
