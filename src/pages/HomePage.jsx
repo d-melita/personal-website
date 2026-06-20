@@ -1,10 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import {
   aboutSummary,
   brandName,
@@ -13,6 +7,7 @@ import {
 } from "../content/siteContent";
 import { useThemeMode } from "../theme/ThemeModeProvider";
 import { useEffect, useState, useRef } from "react";
+import mePhoto from "../../assets/me.jpg";
 
 function useRotatingText(items, intervalMs = 3000) {
   const [index, setIndex] = useState(0);
@@ -41,22 +36,25 @@ function useTypewriter(text, speed = 60, startDelay = 300) {
       prevText.current = text;
     }
 
-    const timeout = setTimeout(() => {
-      if (displayed.length < text.length) {
-        const timer = setInterval(() => {
-          setDisplayed((prev) => {
-            const next = text.slice(0, prev.length + 1);
-            if (next.length >= text.length) {
-              clearInterval(timer);
-              setDone(true);
-            }
-            return next;
-          });
-        }, speed);
+    const timeout = setTimeout(
+      () => {
+        if (displayed.length < text.length) {
+          const timer = setInterval(() => {
+            setDisplayed((prev) => {
+              const next = text.slice(0, prev.length + 1);
+              if (next.length >= text.length) {
+                clearInterval(timer);
+                setDone(true);
+              }
+              return next;
+            });
+          }, speed);
 
-        return () => clearInterval(timer);
-      }
-    }, displayed.length === 0 ? startDelay : 0);
+          return () => clearInterval(timer);
+        }
+      },
+      displayed.length === 0 ? startDelay : 0,
+    );
 
     return () => clearTimeout(timeout);
   }, [text, displayed.length, speed, startDelay]);
@@ -71,7 +69,7 @@ export function HomePage() {
   const { displayed: typedGreeting, done: greetingDone } = useTypewriter(
     "> hello, world",
     70,
-    400
+    400,
   );
 
   return (
@@ -79,7 +77,7 @@ export function HomePage() {
       <Container maxWidth="lg">
         <Grid container spacing={{ xs: 4, md: 8 }} alignItems="center">
           {/* Left: text content, no card */}
-          <Grid item xs={12} md={7}>
+          <Grid item xs={12} sm={7} md={7}>
             <Box
               sx={{
                 animation: "fadeInUp 0.6s ease-out both",
@@ -122,7 +120,7 @@ export function HomePage() {
                         component="span"
                         sx={{
                           background:
-                            "linear-gradient(135deg, #06b6d4, #a78bfa)",
+                            "linear-gradient(135deg, #10b981, #06b6d4)",
                           WebkitBackgroundClip: "text",
                           WebkitTextFillColor: "transparent",
                           backgroundClip: "text",
@@ -133,7 +131,7 @@ export function HomePage() {
                     </span>
                   ) : (
                     <span key={i}>{part}</span>
-                  )
+                  ),
                 )}
                 <Box
                   component="span"
@@ -174,12 +172,7 @@ export function HomePage() {
               </Typography>
 
               {/* Interest tags */}
-              <Stack
-                direction="row"
-                spacing={1.25}
-                flexWrap="wrap"
-                useFlexGap
-              >
+              <Stack direction="row" spacing={1.25} flexWrap="wrap" useFlexGap>
                 {[
                   "Large-scale software systems",
                   "Blockchain & AI curiosity",
@@ -193,10 +186,10 @@ export function HomePage() {
                       borderRadius: "8px",
                       border: "1px solid",
                       borderColor: "divider",
-                      color: isDark ? "#67e8f9" : "#0e7490",
+                      color: isDark ? "#6ee7b7" : "#047857",
                       backgroundColor: isDark
-                        ? "rgba(6, 182, 212, 0.08)"
-                        : "rgba(6, 182, 212, 0.06)",
+                        ? "rgba(16, 185, 129, 0.08)"
+                        : "rgba(16, 185, 129, 0.06)",
                       fontFamily: "var(--font-mono)",
                       fontSize: "0.8rem",
                       fontWeight: 500,
@@ -211,7 +204,7 @@ export function HomePage() {
           </Grid>
 
           {/* Right: monogram + terminal display */}
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} sm={5} md={5}>
             <Stack
               spacing={3}
               alignItems="center"
@@ -220,49 +213,31 @@ export function HomePage() {
                 animation: "fadeInUp 0.6s ease-out 0.2s both",
               }}
             >
-              {/* Monogram */}
+              {/* Profile Photo */}
               <Box
+                component="img"
+                src={mePhoto}
+                alt={brandName}
                 sx={{
-                  width: 200,
-                  height: 200,
-                  borderRadius: "28px",
+                  width: 300,
+                  height: 300,
+                  borderRadius: "14px",
                   border: "2px solid",
                   borderColor: isDark
-                    ? "rgba(6, 182, 212, 0.3)"
-                    : "rgba(6, 182, 212, 0.25)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: isDark
-                    ? "rgba(6, 182, 212, 0.06)"
-                    : "rgba(6, 182, 212, 0.04)",
+                    ? "rgba(16, 185, 129, 0.3)"
+                    : "rgba(16, 185, 129, 0.25)",
+                  objectFit: "cover",
                   boxShadow:
-                    "0 0 60px rgba(6, 182, 212, 0.08), 0 20px 40px rgba(0, 0, 0, 0.1)",
+                    "0 0 60px rgba(16, 185, 129, 0.08), 0 20px 40px rgba(0, 0, 0, 0.1)",
                   transition: "all 300ms ease",
                   "&:hover": {
                     borderColor: "primary.main",
                     boxShadow:
-                      "0 0 80px rgba(6, 182, 212, 0.15), 0 20px 40px rgba(0, 0, 0, 0.15)",
+                      "0 0 80px rgba(16, 185, 129, 0.15), 0 20px 40px rgba(0, 0, 0, 0.15)",
                     transform: "scale(1.03)",
                   },
                 }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "2.8rem",
-                    fontWeight: 700,
-                    background:
-                      "linear-gradient(135deg, #06b6d4, #a78bfa)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    userSelect: "none",
-                  }}
-                >
-                  {"<DM />"}
-                </Typography>
-              </Box>
+              />
 
               {/* Terminal tagline */}
               <Box
@@ -275,7 +250,7 @@ export function HomePage() {
                   background: isDark
                     ? "rgba(10, 14, 26, 0.8)"
                     : "rgba(248, 250, 252, 0.9)",
-                  minWidth: 260,
+                  width: { xs: 280, sm: 320 },
                 }}
               >
                 <Typography
@@ -286,10 +261,7 @@ export function HomePage() {
                     transition: "opacity 300ms ease",
                   }}
                 >
-                  <Box
-                    component="span"
-                    sx={{ color: "text.secondary", mr: 1 }}
-                  >
+                  <Box component="span" sx={{ color: "text.secondary", mr: 1 }}>
                     $
                   </Box>
                   {tagline}

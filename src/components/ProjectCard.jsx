@@ -1,18 +1,15 @@
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
-import { Box, Button, Chip, Stack, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
+import { Box, Button, Chip, Grid, Stack, Typography } from "@mui/material";
+import { useEffect, useState, forwardRef, useRef } from "react";
 import { useThemeMode } from "../theme/ThemeModeProvider";
 
-function useRevealOnView() {
-  const ref = useRef(null);
+function useRevealOnView(externalRef) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const element = ref.current;
-
-    if (!element) {
-      return undefined;
-    }
+    const element = externalRef?.current;
+    if (!element) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -23,229 +20,298 @@ function useRevealOnView() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     observer.observe(element);
-
     return () => observer.disconnect();
-  }, []);
+  }, [externalRef]);
 
-  return { ref, visible };
+  return visible;
 }
 
-// Post-it color palettes per card
-const postItStyles = [
-  {
-    // Yellow sticky
-    bg: { dark: "rgba(250, 204, 21, 0.12)", light: "#fef9c3" },
-    border: { dark: "rgba(250, 204, 21, 0.3)", light: "rgba(202, 138, 4, 0.3)" },
-    accent: { dark: "#facc15", light: "#ca8a04" },
-    tape: { dark: "rgba(250, 204, 21, 0.25)", light: "rgba(250, 204, 21, 0.5)" },
-    rotate: "-1.2deg",
-    hoverRotate: "0deg",
-  },
-  {
-    // Teal sticky
-    bg: { dark: "rgba(6, 182, 212, 0.1)", light: "#ccfbf1" },
-    border: { dark: "rgba(6, 182, 212, 0.3)", light: "rgba(13, 148, 136, 0.3)" },
-    accent: { dark: "#06b6d4", light: "#0d9488" },
-    tape: { dark: "rgba(6, 182, 212, 0.25)", light: "rgba(6, 182, 212, 0.45)" },
-    rotate: "0.8deg",
-    hoverRotate: "0deg",
-  },
-  {
-    // Purple sticky
-    bg: { dark: "rgba(167, 139, 250, 0.1)", light: "#ede9fe" },
-    border: { dark: "rgba(167, 139, 250, 0.3)", light: "rgba(139, 92, 246, 0.3)" },
-    accent: { dark: "#a78bfa", light: "#7c3aed" },
-    tape: { dark: "rgba(167, 139, 250, 0.25)", light: "rgba(167, 139, 250, 0.45)" },
-    rotate: "1.5deg",
-    hoverRotate: "0deg",
-  },
-  {
-    // Pink sticky
-    bg: { dark: "rgba(244, 114, 182, 0.1)", light: "#fce7f3" },
-    border: { dark: "rgba(244, 114, 182, 0.3)", light: "rgba(219, 39, 119, 0.25)" },
-    accent: { dark: "#f472b6", light: "#db2777" },
-    tape: { dark: "rgba(244, 114, 182, 0.25)", light: "rgba(244, 114, 182, 0.45)" },
-    rotate: "-0.7deg",
-    hoverRotate: "0deg",
-  },
-  {
-    // Green sticky
-    bg: { dark: "rgba(16, 185, 129, 0.1)", light: "#d1fae5" },
-    border: { dark: "rgba(16, 185, 129, 0.3)", light: "rgba(5, 150, 105, 0.3)" },
-    accent: { dark: "#10b981", light: "#059669" },
-    tape: { dark: "rgba(16, 185, 129, 0.25)", light: "rgba(16, 185, 129, 0.45)" },
-    rotate: "1.1deg",
-    hoverRotate: "0deg",
-  },
+// Terminal accent colors per card
+const termColors = [
+  { accent: { dark: "#10b981", light: "#059669" }, dot: "#3b82f6" },
+  { accent: { dark: "#a78bfa", light: "#7c3aed" }, dot: "#ef4444" },
+  { accent: { dark: "#facc15", light: "#ca8a04" }, dot: "#eab308" },
+  { accent: { dark: "#10b981", light: "#059669" }, dot: "#22c55e" },
+  { accent: { dark: "#f472b6", light: "#db2777" }, dot: "#8b5cf6" },
 ];
 
-export function ProjectCard({ project, index }) {
-  const { ref, visible } = useRevealOnView();
+export const ProjectCard = forwardRef(({ project, index }, ref) => {
+  const internalRef = useRef(null);
+  const visible = useRevealOnView(internalRef);
   const { mode } = useThemeMode();
   const isDark = mode === "dark";
-  const style = postItStyles[index % postItStyles.length];
-  const isLatest = index === 0;
+  const colors = termColors[index % termColors.length];
+  const t = isDark ? "dark" : "light";
+
+  // Combine parent's callback/object ref and internal ref
+  const setRefs = (node) => {
+    internalRef.current = node;
+    if (typeof ref === "function") {
+      ref(node);
+    } else if (ref) {
+      ref.current = node;
+    }
+  };
 
   return (
-    <Box
-      ref={ref}
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      ref={setRefs}
       sx={{
-        pl: { xs: 3, md: 5 },
-        position: "relative",
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(24px)",
-        transition: "opacity 500ms ease, transform 500ms ease",
-        transitionDelay: `${index * 100}ms`,
+        display: "flex",
+        alignItems: "stretch",
       }}
     >
-      {/* Timeline dot */}
       <Box
         sx={{
-          position: "absolute",
-          left: { xs: 8, md: 12 },
-          top: 32,
-          width: 14,
-          height: 14,
-          borderRadius: "50%",
-          bgcolor: style.accent[isDark ? "dark" : "light"],
-          border: "3px solid",
-          borderColor: isDark ? "#0a0e1a" : "#f8fafc",
-          boxShadow: `0 0 12px ${style.accent[isDark ? "dark" : "light"]}40`,
-          zIndex: 2,
-        }}
-      />
-
-      {/* Post-it card */}
-      <Box
-        sx={{
-          position: "relative",
-          p: { xs: 2.5, md: 3 },
-          borderRadius: "4px",
-          border: "1px solid",
-          borderColor: style.border[isDark ? "dark" : "light"],
-          background: style.bg[isDark ? "dark" : "light"],
-          boxShadow: isDark
-            ? `4px 4px 0px ${style.border.dark}, 0 8px 24px rgba(0, 0, 0, 0.2)`
-            : `4px 4px 0px ${style.border.light}, 0 8px 24px rgba(0, 0, 0, 0.06)`,
-          transform: `rotate(${style.rotate})`,
-          transition:
-            "transform 300ms ease, box-shadow 300ms ease",
-          "&:hover": {
-            transform: `rotate(${style.hoverRotate}) translateY(-4px)`,
-            boxShadow: isDark
-              ? `6px 6px 0px ${style.border.dark}, 0 16px 40px rgba(0, 0, 0, 0.3)`
-              : `6px 6px 0px ${style.border.light}, 0 16px 40px rgba(0, 0, 0, 0.1)`,
-          },
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(16px)",
+          transition: "opacity 450ms ease, transform 450ms ease",
+          transitionDelay: `${index * 80}ms`,
         }}
       >
-        {/* Tape strip */}
+        {/* Terminal Card wrapper */}
         <Box
           sx={{
-            position: "absolute",
-            top: -6,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 60,
-            height: 12,
-            borderRadius: "2px",
-            background: style.tape[isDark ? "dark" : "light"],
-            opacity: 0.8,
+            borderRadius: "12px",
+            border: "1px solid",
+            borderColor: "divider",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            width: "100%",
+            backgroundColor: isDark
+              ? "rgba(10, 14, 26, 0.65)"
+              : "rgba(248, 250, 252, 0.85)",
+            backdropFilter: "blur(12px)",
+            transition:
+              "border-color 300ms ease, box-shadow 300ms ease, transform 200ms ease",
+            "&:hover": {
+              borderColor: colors.accent[t],
+              boxShadow: isDark
+                ? `0 12px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px ${colors.accent[t]}25`
+                : `0 12px 32px rgba(6, 182, 212, 0.06), 0 0 0 1px ${colors.accent[t]}25`,
+              transform: "translateY(-4px)",
+            },
           }}
-        />
-
-        <Stack spacing={1.5}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={2}
-            flexWrap="wrap"
-            alignItems="flex-start"
+        >
+          {/* macOS title bar */}
+          <Box
+            sx={{
+              px: 1.75,
+              py: 1.25,
+              display: "flex",
+              alignItems: "center",
+              gap: 0.75,
+              borderBottom: "1px solid",
+              borderColor: "divider",
+              backgroundColor: isDark
+                ? "rgba(15, 23, 42, 0.7)"
+                : "rgba(241, 245, 249, 0.9)",
+            }}
           >
-            <Box>
-              <Typography
-                sx={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.68rem",
-                  letterSpacing: "0.08em",
-                  color: style.accent[isDark ? "dark" : "light"],
-                  fontWeight: 600,
-                }}
-              >
-                {project.status}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: "var(--font-mono)",
-                  fontWeight: 700,
-                  mt: 0.5,
-                  color: "text.primary",
-                }}
-                variant="h5"
-              >
-                {project.title}
-              </Typography>
-            </Box>
-
-            <Button
-              component="a"
-              href={project.github || undefined}
-              target={project.github ? "_blank" : undefined}
-              rel={project.github ? "noopener noreferrer" : undefined}
-              variant="outlined"
-              endIcon={<OpenInNewRoundedIcon sx={{ fontSize: 13 }} />}
-              disabled={!project.github}
-              size="small"
+            <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "#ef4444" }} />
+            <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "#eab308" }} />
+            <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: "#22c55e" }} />
+            <Typography
               sx={{
-                borderRadius: "6px",
-                textTransform: "none",
                 fontFamily: "var(--font-mono)",
-                fontSize: "0.75rem",
-                borderColor: style.border[isDark ? "dark" : "light"],
-                color: style.accent[isDark ? "dark" : "light"],
-                "&:hover": {
-                  borderColor: style.accent[isDark ? "dark" : "light"],
-                  backgroundColor: `${style.accent[isDark ? "dark" : "light"]}15`,
-                },
+                fontSize: "0.65rem",
+                color: "text.secondary",
+                opacity: 0.6,
+                ml: 0.5,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
             >
-              {"<github />"}
-            </Button>
-          </Stack>
+              ~/{project.title.toLowerCase().replace(/\s+/g, "-")}
+            </Typography>
+          </Box>
 
-          <Typography
-            color="text.secondary"
-            sx={{ lineHeight: 1.75, fontSize: "0.92rem" }}
-            variant="body1"
+          {/* Terminal body */}
+          <Box
+            sx={{
+              p: { xs: 2.5, sm: 3 },
+              flexGrow: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
           >
-            {project.description}
-          </Typography>
+            <Stack spacing={2.5} sx={{ flexGrow: 1 }}>
+              {/* Command 1: Title (whoami) */}
+              <Box>
+                <Typography
+                  component="div"
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.72rem",
+                    color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)",
+                    mb: 0.5,
+                  }}
+                >
+                  <Box component="span" sx={{ color: "primary.main" }}>$</Box> whoami
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontWeight: 700,
+                    color: "text.primary",
+                    fontSize: { xs: "1.05rem", sm: "1.15rem" },
+                    pl: 1.5,
+                    borderLeft: "2px solid",
+                    borderColor: colors.accent[t],
+                  }}
+                >
+                  {project.title.toLowerCase().replace(/\s+/g, "-")}
+                </Typography>
+              </Box>
 
-          <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
-            {project.tags.map((tag) => (
-              <Chip
-                key={tag}
-                label={tag}
-                size="small"
+              {/* Command 2: Description (echo description) */}
+              <Box>
+                <Typography
+                  component="div"
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.72rem",
+                    color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)",
+                    mb: 0.5,
+                  }}
+                >
+                  <Box component="span" sx={{ color: "primary.main" }}>$</Box> echo $DESCRIPTION
+                </Typography>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.8rem",
+                    lineHeight: 1.6,
+                    pl: 1.5,
+                  }}
+                >
+                  "{project.description}"
+                </Typography>
+              </Box>
+
+              {/* Command 3: Tags (ls tags/) */}
+              <Box>
+                <Typography
+                  component="div"
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.72rem",
+                    color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)",
+                    mb: 0.5,
+                  }}
+                >
+                  <Box component="span" sx={{ color: "primary.main" }}>$</Box> ls -l tags/
+                </Typography>
+                <Box sx={{ pl: 1.5 }}>
+                  <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+                    {project.tags.map((tag) => (
+                      <Chip
+                        key={tag}
+                        label={tag}
+                        icon={<FolderOpenOutlinedIcon style={{ fontSize: 12, color: colors.accent[t] }} />}
+                        size="small"
+                        sx={{
+                          bgcolor: `${colors.accent[t]}12`,
+                          color: colors.accent[t],
+                          border: "1px solid",
+                          borderColor: `${colors.accent[t]}25`,
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "0.68rem",
+                          fontWeight: 500,
+                          height: 24,
+                          borderRadius: "6px",
+                          "& .MuiChip-icon": {
+                            marginLeft: "4px",
+                          }
+                        }}
+                        variant="filled"
+                      />
+                    ))}
+                  </Stack>
+                </Box>
+              </Box>
+            </Stack>
+
+            {/* Command 4: GitHub Link (git clone) */}
+            <Box
+              sx={{
+                mt: 3,
+                pt: 2.5,
+                borderTop: "1px dashed",
+                borderColor: "divider",
+              }}
+            >
+              <Typography
+                component="div"
                 sx={{
-                  bgcolor: `${style.accent[isDark ? "dark" : "light"]}18`,
-                  color: style.accent[isDark ? "dark" : "light"],
-                  border: "1px solid",
-                  borderColor: `${style.accent[isDark ? "dark" : "light"]}30`,
                   fontFamily: "var(--font-mono)",
-                  fontSize: "0.7rem",
-                  fontWeight: 500,
-                  height: 26,
+                  fontSize: "0.72rem",
+                  color: isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)",
+                  mb: 0.5,
                 }}
-                variant="filled"
-              />
-            ))}
-          </Stack>
-        </Stack>
+              >
+                <Box component="span" sx={{ color: "primary.main" }}>$</Box> git clone {project.github ? `https://github.com/${project.github}.git` : `diogo-melita/${project.title.toLowerCase().replace(/\s+/g, "-")}.git`}
+              </Typography>
+              
+              <Box sx={{ pl: 1.5 }}>
+                {project.github ? (
+                  <Button
+                    component="a"
+                    href={`https://github.com/${project.github}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    endIcon={<OpenInNewRoundedIcon sx={{ fontSize: 11 }} />}
+                    size="small"
+                    sx={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.7rem",
+                      color: "primary.main",
+                      textTransform: "none",
+                      p: 0,
+                      minWidth: 0,
+                      "&:hover": {
+                        textDecoration: "underline",
+                        backgroundColor: "transparent",
+                      },
+                    }}
+                  >
+                    Cloning... click to open repository
+                  </Button>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.68rem",
+                      color: "error.main",
+                      opacity: 0.8,
+                    }}
+                  >
+                    fatal: repo status private. Permission denied (publickey)
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       </Box>
-    </Box>
+    </Grid>
   );
-}
+});
+
+ProjectCard.displayName = "ProjectCard";

@@ -16,9 +16,9 @@ function buildTheme(mode) {
     palette: {
       mode,
       primary: {
-        main: "#06b6d4",
-        light: "#22d3ee",
-        dark: "#0891b2",
+        main: "#10b981",
+        light: "#34d399",
+        dark: "#059669",
       },
       secondary: {
         main: isDark ? "#a78bfa" : "#7c3aed",

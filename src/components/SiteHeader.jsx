@@ -89,15 +89,14 @@ export function SiteHeader() {
                 const isActive = location.pathname === path.path;
 
                 return (
-                  <Button
+                  <Typography
                     key={path.path}
                     component={Link}
                     to={path.path}
-                    disableElevation
-                    sx={isActive ? activeButtonSx : inactiveButtonSx}
+                    sx={isActive ? activeLinkSx : inactiveLinkSx}
                   >
                     {path.label}
-                  </Button>
+                  </Typography>
                 );
               })}
             </Box>
@@ -171,39 +170,25 @@ export function SiteHeader() {
 const navSx = {
   display: "flex",
   alignItems: "center",
-  gap: 0.5,
+  gap: 3,
 };
 
-const inactiveButtonSx = {
+const inactiveLinkSx = {
   color: "text.secondary",
-  borderRadius: "10px",
-  px: 2,
-  py: 0.75,
-  minWidth: 0,
-  fontSize: "0.875rem",
+  textDecoration: "none",
+  fontSize: "0.88rem",
   fontFamily: "var(--font-mono)",
   fontWeight: 500,
-  transition: "all 200ms ease",
+  transition: "color 150ms ease",
   "&:hover": {
-    color: "text.primary",
-    backgroundColor: "rgba(6, 182, 212, 0.06)",
+    color: "primary.main",
   },
 };
 
-const activeButtonSx = {
-  borderRadius: "10px",
-  px: 2,
-  py: 0.75,
-  minWidth: 0,
-  fontSize: "0.875rem",
-  fontFamily: "var(--font-mono)",
-  fontWeight: 600,
+const activeLinkSx = {
   color: "primary.main",
-  backgroundColor: "rgba(6, 182, 212, 0.1)",
-  borderBottom: "2px solid",
-  borderColor: "primary.main",
-  boxShadow: "0 4px 16px rgba(6, 182, 212, 0.12)",
-  "&:hover": {
-    backgroundColor: "rgba(6, 182, 212, 0.14)",
-  },
+  textDecoration: "none",
+  fontSize: "0.88rem",
+  fontFamily: "var(--font-mono)",
+  fontWeight: 700,
 };

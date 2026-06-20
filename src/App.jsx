@@ -28,8 +28,8 @@ function App() {
           pointerEvents: "none",
           background:
             mode === "dark"
-              ? "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(6, 182, 212, 0.06), transparent), radial-gradient(ellipse 40% 30% at 80% 100%, rgba(167, 139, 250, 0.04), transparent)"
-              : "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(6, 182, 212, 0.05), transparent), radial-gradient(ellipse 40% 30% at 80% 100%, rgba(167, 139, 250, 0.03), transparent)",
+              ? "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(16, 185, 129, 0.06), transparent), radial-gradient(ellipse 40% 30% at 80% 100%, rgba(167, 139, 250, 0.04), transparent)"
+              : "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(16, 185, 129, 0.05), transparent), radial-gradient(ellipse 40% 30% at 80% 100%, rgba(167, 139, 250, 0.03), transparent)",
         }}
       />
 

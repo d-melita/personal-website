@@ -28,11 +28,11 @@ export function LinkCard({ href, icon, title, description, external = true }) {
           borderLeft: "3px solid",
           borderLeftColor: "primary.main",
           backgroundColor: isDark
-            ? "rgba(6, 182, 212, 0.06)"
-            : "rgba(6, 182, 212, 0.04)",
+            ? "rgba(16, 185, 129, 0.06)"
+            : "rgba(16, 185, 129, 0.04)",
           boxShadow: isDark
-            ? "0 8px 24px rgba(6, 182, 212, 0.08)"
-            : "0 8px 24px rgba(6, 182, 212, 0.06)",
+            ? "0 8px 24px rgba(16, 185, 129, 0.08)"
+            : "0 8px 24px rgba(16, 185, 129, 0.06)",
           "& .link-arrow": {
             opacity: 1,
             transform: "translateX(0)",
@@ -47,8 +47,8 @@ export function LinkCard({ href, icon, title, description, external = true }) {
             width: 44,
             height: 44,
             bgcolor: isDark
-              ? "rgba(6, 182, 212, 0.12)"
-              : "rgba(6, 182, 212, 0.08)",
+              ? "rgba(16, 185, 129, 0.12)"
+              : "rgba(16, 185, 129, 0.08)",
             borderRadius: "12px",
           }}
           variant="rounded"

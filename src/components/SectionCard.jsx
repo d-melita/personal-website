@@ -24,11 +24,11 @@ export function SectionCard({ eyebrow, title, description, children }) {
           "border-color 300ms ease, box-shadow 300ms ease",
         "&:hover": {
           borderColor: isDark
-            ? "rgba(6, 182, 212, 0.25)"
-            : "rgba(6, 182, 212, 0.3)",
+            ? "rgba(16, 185, 129, 0.25)"
+            : "rgba(16, 185, 129, 0.3)",
           boxShadow: isDark
-            ? "0 20px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(6, 182, 212, 0.1)"
-            : "0 20px 60px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(6, 182, 212, 0.1)",
+            ? "0 20px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(16, 185, 129, 0.1)"
+            : "0 20px 60px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(16, 185, 129, 0.1)",
         },
       }}
     >

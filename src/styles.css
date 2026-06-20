@@ -5,9 +5,9 @@
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Fira Code",
     monospace;
 
-  --accent: #06b6d4;
-  --accent-dim: rgba(6, 182, 212, 0.12);
-  --accent-glow: rgba(6, 182, 212, 0.25);
+  --accent: #10b981;
+  --accent-dim: rgba(16, 185, 129, 0.12);
+  --accent-glow: rgba(16, 185, 129, 0.25);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -90,11 +90,11 @@ a {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(6, 182, 212, 0.3);
+  background: rgba(16, 185, 129, 0.3);
   border-radius: var(--radius-pill);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.5);
+  background: rgba(16, 185, 129, 0.5);
 }
 
 /* ── Keyframes ────────────────────────────────────────── */
