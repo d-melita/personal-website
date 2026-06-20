@@ -1,3 +1,9 @@
 # personal-website
-My personal website made with html, css and js.
-I created this repo because I was wanting to learn a little bit of web development and decided to practice making this website.
+
+My personal website rebuilt as a React frontend app.
+
+## Development
+
+Install dependencies with `npm install`, start the local dev server with `npm run dev`, and create a production build with `npm run build`.
+
+The app uses a tabbed layout for the home, projects, and contact sections, with links to GitHub, LinkedIn, email, and my CV.
