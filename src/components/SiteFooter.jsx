@@ -1,36 +1,91 @@
 import { Box, Container, Link as MuiLink, Stack, Typography } from "@mui/material";
+import { quickLinks, footerTaglines } from "../content/siteContent";
+import { useEffect, useState } from "react";
 
 export function SiteFooter() {
+  const [tagline, setTagline] = useState(() =>
+    footerTaglines[Math.floor(Math.random() * footerTaglines.length)]
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTagline(
+        footerTaglines[Math.floor(Math.random() * footerTaglines.length)]
+      );
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Box
       component="footer"
       sx={{
         mt: "auto",
-        borderTop: "1px solid rgba(148, 163, 184, 0.16)",
-        background: "rgba(8, 15, 30, 0.84)",
-        backdropFilter: "blur(12px)",
+        borderTop: "1px solid",
+        borderColor: "divider",
+        py: 3,
       }}
     >
-      <Container maxWidth="lg" sx={{ py: 3 }}>
+      <Container maxWidth="lg">
         <Stack
           direction={{ xs: "column", sm: "row" }}
-          spacing={1}
+          spacing={2}
           justifyContent="space-between"
           alignItems={{ xs: "flex-start", sm: "center" }}
         >
-          <Typography color="rgba(226, 232, 240, 0.78)" variant="body2">
-            © 2026 Diogo Melita
-          </Typography>
-          <Stack direction="row" spacing={2}>
-            <MuiLink color="#dbeafe" href="https://github.com/d-melita" target="_blank" underline="hover">
-              GitHub
-            </MuiLink>
-            <MuiLink color="#dbeafe" href="https://www.linkedin.com/in/diogo-melita/" target="_blank" underline="hover">
-              LinkedIn
-            </MuiLink>
-            <MuiLink color="#dbeafe" href="mailto:diogo@melita.pt" underline="hover">
-              Email
-            </MuiLink>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <span className="status-dot" />
+            <Typography
+              sx={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.75rem",
+              }}
+              color="text.secondary"
+            >
+              system nominal
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.72rem",
+                opacity: 0.5,
+              }}
+              color="text.secondary"
+            >
+              — {tagline}
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" spacing={2.5} alignItems="center">
+            <Typography
+              color="text.secondary"
+              sx={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.75rem",
+              }}
+            >
+              © 2026 Diogo Melita
+            </Typography>
+            {quickLinks.map((link) => (
+              <MuiLink
+                key={link.label}
+                color="text.secondary"
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                underline="none"
+                sx={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.75rem",
+                  transition: "color 200ms ease",
+                  "&:hover": {
+                    color: "primary.main",
+                  },
+                }}
+              >
+                {link.label}
+              </MuiLink>
+            ))}
           </Stack>
         </Stack>
       </Container>

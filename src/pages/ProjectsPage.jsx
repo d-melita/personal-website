@@ -1,56 +1,45 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import { SectionCard } from "../components/SectionCard";
-
-const projects = [
-  {
-    title: "Blockchain.PT research",
-    description:
-      "Investigating controlled mutability in blockchain systems while preserving protocol guarantees and security assumptions.",
-  },
-  {
-    title: "Personal website rebuild",
-    description:
-      "A React frontend with shared layout, route-driven pages, and a more polished presentation layer.",
-  },
-  {
-    title: "Security and systems prototypes",
-    description:
-      "Smaller experiments around distributed systems, privacy, and security tooling.",
-  },
-];
+import { projects } from "../content/siteContent";
+import { ProjectCard } from "../components/ProjectCard";
+import { useThemeMode } from "../theme/ThemeModeProvider";
 
 export function ProjectsPage() {
+  const { mode } = useThemeMode();
+  const isDark = mode === "dark";
+
   return (
     <Box component="main" sx={{ py: { xs: 4, md: 6 } }}>
       <Container maxWidth="lg">
         <SectionCard
-          eyebrow="Projects"
-          title="Selected work and experiments."
-          description="A few things I’m currently focused on or have been exploring recently."
+          eyebrow="projects"
+          title="Selected commits to public memory."
+          description="The newest project sits at the top. Each sticky note is a snapshot from the build log."
         >
-          <Grid container spacing={2.5} sx={{ mt: 1 }}>
-            {projects.map((project) => (
-              <Grid item key={project.title} xs={12} md={4}>
-                <Box
-                  sx={{
-                    height: "100%",
-                    p: 3,
-                    borderRadius: 4,
-                    border: "1px solid rgba(148, 163, 184, 0.14)",
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
-                  }}
-                >
-                  <Typography color="#f8fafc" gutterBottom fontWeight={700} variant="h6">
-                    {project.title}
-                  </Typography>
-                  <Typography color="#a8b3c7" sx={{ lineHeight: 1.75 }} variant="body2">
-                    {project.description}
-                  </Typography>
-                </Box>
-              </Grid>
+          <Stack sx={{ mt: 4, position: "relative" }} spacing={4}>
+            {/* Timeline line — dashed, fun */}
+            <Box
+              sx={{
+                position: "absolute",
+                left: { xs: 14, md: 18 },
+                top: 0,
+                bottom: 0,
+                width: 2,
+                background: isDark
+                  ? "repeating-linear-gradient(180deg, #06b6d4 0px, #06b6d4 8px, transparent 8px, transparent 16px)"
+                  : "repeating-linear-gradient(180deg, rgba(6, 182, 212, 0.5) 0px, rgba(6, 182, 212, 0.5) 8px, transparent 8px, transparent 16px)",
+                borderRadius: 999,
+                zIndex: 1,
+              }}
+            />
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={project.title}
+                index={index}
+                project={project}
+              />
             ))}
-          </Grid>
+          </Stack>
         </SectionCard>
       </Container>
     </Box>

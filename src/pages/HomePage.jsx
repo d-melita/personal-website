@@ -1,74 +1,321 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import { LinkCard } from "../components/LinkCard";
-import { SectionCard } from "../components/SectionCard";
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  aboutSummary,
+  brandName,
+  shortDescription,
+  terminalTaglines,
+} from "../content/siteContent";
+import { useThemeMode } from "../theme/ThemeModeProvider";
+import { useEffect, useState, useRef } from "react";
 
-const socialLinks = [
-  {
-    title: "GitHub",
-    description: "Code, experiments, and repositories.",
-    href: "https://github.com/d-melita",
-    icon: "/assets/github.svg",
-  },
-  {
-    title: "LinkedIn",
-    description: "Professional profile and updates.",
-    href: "https://www.linkedin.com/in/diogo-melita/",
-    icon: "/assets/linkedin.svg",
-  },
-];
+function useRotatingText(items, intervalMs = 3000) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % items.length);
+    }, intervalMs);
+
+    return () => clearInterval(timer);
+  }, [items.length, intervalMs]);
+
+  return items[index];
+}
+
+function useTypewriter(text, speed = 60, startDelay = 300) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  const prevText = useRef(text);
+
+  useEffect(() => {
+    // Reset if text changes
+    if (prevText.current !== text) {
+      setDisplayed("");
+      setDone(false);
+      prevText.current = text;
+    }
+
+    const timeout = setTimeout(() => {
+      if (displayed.length < text.length) {
+        const timer = setInterval(() => {
+          setDisplayed((prev) => {
+            const next = text.slice(0, prev.length + 1);
+            if (next.length >= text.length) {
+              clearInterval(timer);
+              setDone(true);
+            }
+            return next;
+          });
+        }, speed);
+
+        return () => clearInterval(timer);
+      }
+    }, displayed.length === 0 ? startDelay : 0);
+
+    return () => clearTimeout(timeout);
+  }, [text, displayed.length, speed, startDelay]);
+
+  return { displayed, done };
+}
 
 export function HomePage() {
-  return (
-    <Box component="main" sx={{ py: { xs: 4, md: 6 } }}>
-      <Container maxWidth="lg">
-        <Grid container spacing={3} alignItems="stretch">
-          <Grid item xs={12} md={8}>
-            <SectionCard
-              eyebrow="Home"
-              title="Blockchain researcher and computer science student."
-              description="I’m Diogo Melita. I work on blockchain systems, cybersecurity, and distributed systems while building practical tools and experiments along the way."
-            >
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ mt: 3, flexWrap: "wrap" }}>
-                <Typography
-                  sx={{
-                    px: 2,
-                    py: 1,
-                    borderRadius: 999,
-                    border: "1px solid rgba(148, 163, 184, 0.18)",
-                    color: "#dbeafe",
-                  }}
-                  variant="body2"
-                >
-                  Blockchain Researcher @ INESC-ID
-                </Typography>
-                <Typography
-                  sx={{
-                    px: 2,
-                    py: 1,
-                    borderRadius: 999,
-                    border: "1px solid rgba(148, 163, 184, 0.18)",
-                    color: "#dbeafe",
-                  }}
-                  variant="body2"
-                >
-                  MSc student @ Instituto Superior Técnico
-                </Typography>
-              </Stack>
-            </SectionCard>
-          </Grid>
+  const { mode } = useThemeMode();
+  const isDark = mode === "dark";
+  const tagline = useRotatingText(terminalTaglines, 3500);
+  const { displayed: typedGreeting, done: greetingDone } = useTypewriter(
+    "> hello, world",
+    70,
+    400
+  );
 
-          <Grid item xs={12} md={4}>
-            <SectionCard
-              eyebrow="Links"
-              title="Useful links"
-              description="Quick access to my public profiles and contact points."
+  return (
+    <Box component="main" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container maxWidth="lg">
+        <Grid container spacing={{ xs: 4, md: 8 }} alignItems="center">
+          {/* Left: text content, no card */}
+          <Grid item xs={12} md={7}>
+            <Box
+              sx={{
+                animation: "fadeInUp 0.6s ease-out both",
+              }}
             >
-              <Stack spacing={2.25} sx={{ mt: 3 }}>
-                {socialLinks.map((link) => (
-                  <LinkCard key={link.title} {...link} />
+              {/* Eyebrow */}
+              <Typography
+                sx={{
+                  fontFamily: "var(--font-mono)",
+                  color: "primary.main",
+                  letterSpacing: "0.1em",
+                  textTransform: "lowercase",
+                  mb: 2,
+                  fontSize: "0.78rem",
+                  fontWeight: 500,
+                }}
+              >
+                {"// home"}
+              </Typography>
+
+              {/* Typewriter heading */}
+              <Typography
+                component="h1"
+                sx={{
+                  fontFamily: "var(--font-mono)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.01em",
+                  fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+                  lineHeight: 1.2,
+                  color: "text.primary",
+                  mb: 2,
+                  minHeight: { xs: "2.8rem", sm: "3.4rem", md: "4rem" },
+                }}
+              >
+                {typedGreeting.split("world").map((part, i, arr) =>
+                  i < arr.length - 1 ? (
+                    <span key={i}>
+                      {part}
+                      <Box
+                        component="span"
+                        sx={{
+                          background:
+                            "linear-gradient(135deg, #06b6d4, #a78bfa)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                          backgroundClip: "text",
+                        }}
+                      >
+                        world
+                      </Box>
+                    </span>
+                  ) : (
+                    <span key={i}>{part}</span>
+                  )
+                )}
+                <Box
+                  component="span"
+                  sx={{
+                    color: "primary.main",
+                    animation: "blink 1s step-end infinite",
+                    ml: 0.25,
+                  }}
+                >
+                  _
+                </Box>
+              </Typography>
+
+              {/* Subtitle */}
+              <Typography
+                sx={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: { xs: "0.9rem", md: "1rem" },
+                  mb: 4,
+                }}
+                color="text.secondary"
+              >
+                {shortDescription}
+              </Typography>
+
+              {/* About */}
+              <Typography
+                sx={{
+                  maxWidth: 580,
+                  lineHeight: 1.85,
+                  fontSize: { xs: "1rem", md: "1.06rem" },
+                  mb: 4,
+                }}
+                color="text.primary"
+                variant="body1"
+              >
+                {aboutSummary}
+              </Typography>
+
+              {/* Interest tags */}
+              <Stack
+                direction="row"
+                spacing={1.25}
+                flexWrap="wrap"
+                useFlexGap
+              >
+                {[
+                  "Large-scale software systems",
+                  "Blockchain & AI curiosity",
+                  "Lisbon based",
+                ].map((value) => (
+                  <Typography
+                    key={value}
+                    sx={{
+                      px: 2,
+                      py: 0.75,
+                      borderRadius: "8px",
+                      border: "1px solid",
+                      borderColor: "divider",
+                      color: isDark ? "#67e8f9" : "#0e7490",
+                      backgroundColor: isDark
+                        ? "rgba(6, 182, 212, 0.08)"
+                        : "rgba(6, 182, 212, 0.06)",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.8rem",
+                      fontWeight: 500,
+                    }}
+                    variant="body2"
+                  >
+                    {value}
+                  </Typography>
                 ))}
               </Stack>
-            </SectionCard>
+            </Box>
+          </Grid>
+
+          {/* Right: monogram + terminal display */}
+          <Grid item xs={12} md={5}>
+            <Stack
+              spacing={3}
+              alignItems="center"
+              sx={{
+                textAlign: "center",
+                animation: "fadeInUp 0.6s ease-out 0.2s both",
+              }}
+            >
+              {/* Monogram */}
+              <Box
+                sx={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: "28px",
+                  border: "2px solid",
+                  borderColor: isDark
+                    ? "rgba(6, 182, 212, 0.3)"
+                    : "rgba(6, 182, 212, 0.25)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: isDark
+                    ? "rgba(6, 182, 212, 0.06)"
+                    : "rgba(6, 182, 212, 0.04)",
+                  boxShadow:
+                    "0 0 60px rgba(6, 182, 212, 0.08), 0 20px 40px rgba(0, 0, 0, 0.1)",
+                  transition: "all 300ms ease",
+                  "&:hover": {
+                    borderColor: "primary.main",
+                    boxShadow:
+                      "0 0 80px rgba(6, 182, 212, 0.15), 0 20px 40px rgba(0, 0, 0, 0.15)",
+                    transform: "scale(1.03)",
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "2.8rem",
+                    fontWeight: 700,
+                    background:
+                      "linear-gradient(135deg, #06b6d4, #a78bfa)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    userSelect: "none",
+                  }}
+                >
+                  {"<DM />"}
+                </Typography>
+              </Box>
+
+              {/* Terminal tagline */}
+              <Box
+                sx={{
+                  px: 2.5,
+                  py: 1.25,
+                  borderRadius: "12px",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  background: isDark
+                    ? "rgba(10, 14, 26, 0.8)"
+                    : "rgba(248, 250, 252, 0.9)",
+                  minWidth: 260,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "0.82rem",
+                    color: isDark ? "#10b981" : "#059669",
+                    transition: "opacity 300ms ease",
+                  }}
+                >
+                  <Box
+                    component="span"
+                    sx={{ color: "text.secondary", mr: 1 }}
+                  >
+                    $
+                  </Box>
+                  {tagline}
+                  <Box
+                    component="span"
+                    sx={{
+                      color: "primary.main",
+                      animation: "blink 1s step-end infinite",
+                    }}
+                  >
+                    _
+                  </Box>
+                </Typography>
+              </Box>
+
+              <Typography
+                color="text.secondary"
+                sx={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.72rem",
+                  opacity: 0.5,
+                }}
+              >
+                {brandName.toLowerCase()}.init()
+              </Typography>
+            </Stack>
           </Grid>
         </Grid>
       </Container>
