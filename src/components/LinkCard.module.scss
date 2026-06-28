@@ -1,0 +1,78 @@
+/* ── Link Card ────────────────────────────────────────── */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: var(--radius-md);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  backdrop-filter: blur(12px);
+  transition: all 250ms ease;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--accent);
+    border-left: 3px solid var(--accent);
+    background-color: var(--accent-subtle-bg);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 8%, transparent);
+
+    .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+/* ── Avatar ───────────────────────────────────────────── */
+.avatarWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--accent-dim);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* ── Text ─────────────────────────────────────────────── */
+.textWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.description {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.43;
+  margin-top: 2px;
+}
+
+/* ── Arrow Icon ──────────────────────────────────────── */
+.arrow {
+  color: var(--accent);
+  font-size: 20px;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 250ms ease;
+  flex-shrink: 0;
+}

@@ -1,0 +1,64 @@
+/* ── Section Card ─────────────────────────────────────── */
+.card {
+  height: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-elevated);
+  backdrop-filter: blur(24px);
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+
+  &:hover {
+    border-color: var(--accent-glow);
+    box-shadow: var(--shadow-elevated),
+      0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+}
+
+.content {
+  padding: 24px;
+
+  @media (min-width: 900px) {
+    padding: 40px;
+  }
+}
+
+/* ── Eyebrow ──────────────────────────────────────────── */
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+  margin-bottom: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 2.5;
+}
+
+/* ── Title ─────────────────────────────────────────────── */
+.title {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+  font-size: 1.75rem;
+  line-height: 1.25;
+  margin: 0;
+
+  @media (min-width: 600px) {
+    font-size: 2.25rem;
+  }
+
+  @media (min-width: 900px) {
+    font-size: 3rem;
+  }
+}
+
+/* ── Description ──────────────────────────────────────── */
+.description {
+  color: var(--text-secondary);
+  margin-top: 16px;
+  line-height: 1.8;
+  font-size: 1rem;
+}

@@ -1,39 +1,31 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { paths } from "./paths";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
-import { useThemeMode } from "./theme/ThemeModeProvider";
+import styles from "./App.module.scss";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
-  const { mode } = useThemeMode();
-
   return (
-    <Box
-      className="app-shell"
-      sx={{
-        bgcolor: "background.default",
-        transition: "background-color 300ms ease",
-      }}
-    >
+    <div className="app-shell">
       {/* Animated dot grid background */}
       <div className="dot-grid" />
 
       {/* Subtle radial glow */}
-      <Box
-        sx={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: "none",
-          background:
-            mode === "dark"
-              ? "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(16, 185, 129, 0.06), transparent), radial-gradient(ellipse 40% 30% at 80% 100%, rgba(167, 139, 250, 0.04), transparent)"
-              : "radial-gradient(ellipse 50% 40% at 50% 0%, rgba(16, 185, 129, 0.05), transparent), radial-gradient(ellipse 40% 30% at 80% 100%, rgba(167, 139, 250, 0.03), transparent)",
-        }}
-      />
+      <div className="radial-glow" />
 
-      <Box sx={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <div className={styles.contentWrapper}>
+        <ScrollToTop />
         <SiteHeader />
 
         <Routes>
@@ -44,8 +36,8 @@ function App() {
         </Routes>
 
         <SiteFooter />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
 
