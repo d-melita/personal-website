@@ -1,94 +1,56 @@
-import { Box, Container, Link as MuiLink, Stack, Typography } from "@mui/material";
 import { quickLinks, footerTaglines } from "../content/siteContent";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import styles from "./SiteFooter.module.scss";
 
 export function SiteFooter() {
   const [tagline, setTagline] = useState(() =>
-    footerTaglines[Math.floor(Math.random() * footerTaglines.length)]
+    footerTaglines[Math.floor(Math.random() * footerTaglines.length)],
   );
+  const [fading, setFading] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+  const cycleTagline = useCallback(() => {
+    setFading(true);
+    setTimeout(() => {
       setTagline(
-        footerTaglines[Math.floor(Math.random() * footerTaglines.length)]
+        footerTaglines[Math.floor(Math.random() * footerTaglines.length)],
       );
-    }, 8000);
-
-    return () => clearInterval(interval);
+      setFading(false);
+    }, 300);
   }, []);
 
-  return (
-    <Box
-      component="footer"
-      sx={{
-        mt: "auto",
-        borderTop: "1px solid",
-        borderColor: "divider",
-        py: 3,
-      }}
-    >
-      <Container maxWidth="lg">
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-        >
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <span className="status-dot" />
-            <Typography
-              sx={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.75rem",
-              }}
-              color="text.secondary"
-            >
-              system nominal
-            </Typography>
-            <Typography
-              sx={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.72rem",
-                opacity: 0.5,
-              }}
-              color="text.secondary"
-            >
-              — {tagline}
-            </Typography>
-          </Stack>
+  useEffect(() => {
+    const interval = setInterval(cycleTagline, 8000);
+    return () => clearInterval(interval);
+  }, [cycleTagline]);
 
-          <Stack direction="row" spacing={2.5} alignItems="center">
-            <Typography
-              color="text.secondary"
-              sx={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.75rem",
-              }}
-            >
-              © 2026 Diogo Melita
-            </Typography>
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.container}>
+        <div className={styles.inner}>
+          <div className={styles.statusGroup}>
+            <span className="status-dot" />
+            <span className={styles.statusText}>system nominal</span>
+            <span className={fading ? styles.taglineFading : styles.tagline}>
+              — {tagline}
+            </span>
+          </div>
+
+          <div className={styles.linksGroup}>
+            <span className={styles.copyright}>© 2026 Diogo Melita</span>
             {quickLinks.map((link) => (
-              <MuiLink
+              <a
                 key={link.label}
-                color="text.secondary"
                 href={link.href}
                 target={link.external ? "_blank" : undefined}
-                underline="none"
-                sx={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.75rem",
-                  transition: "color 200ms ease",
-                  "&:hover": {
-                    color: "primary.main",
-                  },
-                }}
+                rel={link.external ? "noopener noreferrer" : undefined}
+                className={styles.quickLink}
               >
                 {link.label}
-              </MuiLink>
+              </a>
             ))}
-          </Stack>
-        </Stack>
-      </Container>
-    </Box>
+          </div>
+        </div>
+      </div>
+    </footer>
   );
 }

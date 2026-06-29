@@ -1,14 +1,3 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Stack,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -17,6 +6,7 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import { Link, useLocation } from "react-router-dom";
 import { paths } from "../paths";
 import { useThemeMode } from "../theme/ThemeModeProvider";
+import styles from "./SiteHeader.module.scss";
 
 const socialIcons = [
   {
@@ -38,157 +28,66 @@ const socialIcons = [
 
 export function SiteHeader() {
   const location = useLocation();
-  const { mode, toggleMode } = useThemeMode();
-  const isDark = mode === "dark";
+  const { isDark, toggleMode } = useThemeMode();
 
   return (
-    <AppBar
-      component="header"
-      position="sticky"
-      sx={{
-        background: isDark
-          ? "rgba(10, 14, 26, 0.85)"
-          : "rgba(248, 250, 252, 0.85)",
-        color: "text.primary",
-        backdropFilter: "blur(20px)",
-        borderBottom: "1px solid",
-        borderColor: "divider",
-        boxShadow: "none",
-      }}
-    >
-      <Container maxWidth="lg">
-        <Toolbar
-          disableGutters
-          sx={{
-            minHeight: 64,
-            gap: 2,
-            py: 1,
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
+    <header className={styles.appBar}>
+      <div className={styles.container}>
+        <div className={styles.toolbar}>
           {/* Left: nav comment + links */}
-          <Stack direction="row" alignItems="center" spacing={1.5}>
-            <Typography
-              sx={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.75rem",
-                color: "text.secondary",
-                opacity: 0.5,
-                userSelect: "none",
-                display: { xs: "none", sm: "block" },
-              }}
-            >
-              {"//"}
-            </Typography>
+          <div className={styles.leftSection}>
+            <span className={styles.comment}>{"//"}</span>
 
-            <Box sx={navSx}>
+            <nav className={styles.nav}>
               {paths.map((path) => {
                 const isActive = location.pathname === path.path;
-
                 return (
-                  <Typography
+                  <Link
                     key={path.path}
-                    component={Link}
                     to={path.path}
-                    sx={isActive ? activeLinkSx : inactiveLinkSx}
+                    className={
+                      isActive ? styles.navLinkActive : styles.navLink
+                    }
                   >
                     {path.label}
-                  </Typography>
+                  </Link>
                 );
               })}
-            </Box>
-          </Stack>
+            </nav>
+          </div>
 
           {/* Right: social icons + theme toggle */}
-          <Stack direction="row" spacing={0.5} alignItems="center">
+          <div className={styles.rightSection}>
             {socialIcons.map((social) => (
-              <Tooltip key={social.label} title={social.label} arrow>
-                <IconButton
-                  component="a"
-                  href={social.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  aria-label={social.label}
-                  size="small"
-                  sx={{
-                    color: "text.secondary",
-                    width: 36,
-                    height: 36,
-                    transition: "all 200ms ease",
-                    "&:hover": {
-                      color: "primary.main",
-                      backgroundColor: "transparent",
-                    },
-                  }}
-                >
-                  <social.icon sx={{ fontSize: 20 }} />
-                </IconButton>
-              </Tooltip>
+              <a
+                key={social.label}
+                href={social.href}
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={social.label}
+                title={social.label}
+                className={styles.socialButton}
+              >
+                <social.icon className={styles.socialIcon} />
+              </a>
             ))}
 
-            <Box
-              sx={{
-                width: 1,
-                height: 20,
-                bgcolor: "divider",
-                mx: 0.75,
-              }}
-            />
+            <span className={styles.divider} />
 
-            <IconButton
+            <button
               aria-label="toggle theme"
               onClick={toggleMode}
-              size="small"
-              sx={{
-                borderRadius: "10px",
-                width: 36,
-                height: 36,
-                color: "text.secondary",
-                transition: "all 200ms ease",
-                "&:hover": {
-                  color: "primary.main",
-                  backgroundColor: "transparent",
-                },
-              }}
+              className={styles.themeToggle}
             >
               {isDark ? (
-                <LightModeOutlinedIcon sx={{ fontSize: 20 }} />
+                <LightModeOutlinedIcon className={styles.themeIcon} />
               ) : (
-                <DarkModeOutlinedIcon sx={{ fontSize: 20 }} />
+                <DarkModeOutlinedIcon className={styles.themeIcon} />
               )}
-            </IconButton>
-          </Stack>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }
-
-const navSx = {
-  display: "flex",
-  alignItems: "center",
-  gap: 3,
-};
-
-const inactiveLinkSx = {
-  color: "text.secondary",
-  textDecoration: "none",
-  fontSize: "0.88rem",
-  fontFamily: "var(--font-mono)",
-  fontWeight: 500,
-  transition: "color 150ms ease",
-  "&:hover": {
-    color: "primary.main",
-  },
-};
-
-const activeLinkSx = {
-  color: "primary.main",
-  textDecoration: "none",
-  fontSize: "0.88rem",
-  fontFamily: "var(--font-mono)",
-  fontWeight: 700,
-};

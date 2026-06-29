@@ -6,8 +6,12 @@
     monospace;
 
   --accent: #10b981;
+  --accent-light: #34d399;
+  --accent-dark: #059669;
   --accent-dim: rgba(16, 185, 129, 0.12);
   --accent-glow: rgba(16, 185, 129, 0.25);
+
+  --secondary: #a78bfa;
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -18,6 +22,86 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Theme: Dark ─────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-default: #0a0e1a;
+  --bg-paper: rgba(15, 23, 42, 0.75);
+  --bg-surface: rgba(10, 14, 26, 0.65);
+  --bg-surface-hover: rgba(15, 23, 42, 0.7);
+  --bg-elevated: rgba(15, 23, 42, 0.6);
+
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: rgba(255, 255, 255, 0.4);
+
+  --border-color: rgba(148, 163, 184, 0.12);
+  --border-hover: rgba(148, 163, 184, 0.2);
+
+  --dot-color: rgba(148, 163, 184, 0.15);
+
+  --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  --header-bg: rgba(10, 14, 26, 0.85);
+  --terminal-titlebar: rgba(15, 23, 42, 0.7);
+  --terminal-body: rgba(10, 14, 26, 0.65);
+
+  --accent-tag-text: #6ee7b7;
+  --accent-tag-bg: rgba(16, 185, 129, 0.08);
+  --accent-subtle-bg: rgba(16, 185, 129, 0.06);
+
+  --glow-radial-1: radial-gradient(
+    ellipse 50% 40% at 50% 0%,
+    rgba(16, 185, 129, 0.06),
+    transparent
+  );
+  --glow-radial-2: radial-gradient(
+    ellipse 40% 30% at 80% 100%,
+    rgba(167, 139, 250, 0.04),
+    transparent
+  );
+}
+
+/* ── Theme: Light ────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-default: #f8fafc;
+  --bg-paper: rgba(255, 255, 255, 0.82);
+  --bg-surface: rgba(248, 250, 252, 0.85);
+  --bg-surface-hover: rgba(241, 245, 249, 0.9);
+  --bg-elevated: rgba(255, 255, 255, 0.75);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: rgba(0, 0, 0, 0.4);
+
+  --border-color: rgba(148, 163, 184, 0.2);
+  --border-hover: rgba(148, 163, 184, 0.3);
+
+  --dot-color: rgba(15, 23, 42, 0.06);
+
+  --shadow-card: 0 12px 32px rgba(6, 182, 212, 0.06);
+  --shadow-elevated: 0 20px 60px rgba(15, 23, 42, 0.06);
+
+  --header-bg: rgba(248, 250, 252, 0.85);
+  --terminal-titlebar: rgba(241, 245, 249, 0.9);
+  --terminal-body: rgba(248, 250, 252, 0.85);
+
+  --accent-tag-text: #047857;
+  --accent-tag-bg: rgba(16, 185, 129, 0.06);
+  --accent-subtle-bg: rgba(16, 185, 129, 0.04);
+
+  --glow-radial-1: radial-gradient(
+    ellipse 50% 40% at 50% 0%,
+    rgba(16, 185, 129, 0.05),
+    transparent
+  );
+  --glow-radial-2: radial-gradient(
+    ellipse 40% 30% at 80% 100%,
+    rgba(167, 139, 250, 0.03),
+    transparent
+  );
 }
 
 /* ── Reset ────────────────────────────────────────────── */
@@ -34,6 +118,10 @@ body,
 body {
   margin: 0;
   font-family: var(--font-sans);
+  background-color: var(--bg-default);
+  color: var(--text-primary);
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 a {
@@ -53,6 +141,8 @@ a {
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
+  background-color: var(--bg-default);
+  transition: background-color 300ms ease;
 }
 
 /* ── Animated Dot Grid ────────────────────────────────── */
@@ -61,7 +151,11 @@ a {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle,
+    var(--dot-color) 1px,
+    transparent 1px
+  );
   background-size: 32px 32px;
   opacity: 0.4;
   mask-image: radial-gradient(
@@ -74,6 +168,15 @@ a {
     black 20%,
     transparent 70%
   );
+}
+
+/* ── Radial Glow Background ──────────────────────────── */
+.radial-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--glow-radial-1), var(--glow-radial-2);
 }
 
 /* ── Selection ────────────────────────────────────────── */
@@ -140,6 +243,17 @@ a {
   }
 }
 
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Utilities ────────────────────────────────────────── */
 .font-mono {
   font-family: var(--font-mono);
@@ -164,4 +278,9 @@ a {
   background: #10b981;
   box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
   animation: subtlePulse 2s ease-in-out infinite;
+}
+
+/* ── Page Transition ─────────────────────────────────── */
+.page-transition-enter {
+  animation: pageFadeIn 0.35s ease-out both;
 }

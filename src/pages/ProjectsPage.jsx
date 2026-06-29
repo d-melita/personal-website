@@ -1,18 +1,17 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/siteContent";
-import { useThemeMode } from "../theme/ThemeModeProvider";
+import styles from "./ProjectsPage.module.scss";
 
 export function ProjectsPage() {
-  const { mode } = useThemeMode();
-  const isDark = mode === "dark";
-
   const containerRef = useRef(null);
   const startRef = useRef(null);
   const endRef = useRef(null);
   const cardRefs = useRef([]);
+  const trailRef = useRef(null);
+  const trailGlowRef = useRef(null);
 
   const [coords, setCoords] = useState([]);
   const [startCoord, setStartCoord] = useState(null);
@@ -81,6 +80,18 @@ export function ProjectsPage() {
     };
   }, []);
 
+  // Set trail length for draw animation once paths render
+  useEffect(() => {
+    [trailRef.current, trailGlowRef.current].forEach((el) => {
+      if (el) {
+        const length = el.getTotalLength();
+        el.style.setProperty("--trail-length", length);
+        el.style.strokeDasharray = length;
+        el.style.strokeDashoffset = length;
+      }
+    });
+  }, [coords, startCoord, endCoord]);
+
   // Generate SVG path connecting the nodes
   const getPathString = () => {
     if (!startCoord || !endCoord || coords.length === 0) return "";
@@ -95,7 +106,6 @@ export function ProjectsPage() {
     for (let i = 1; i < coords.length; i++) {
       const prev = coords[i - 1];
       const curr = coords[i];
-      // Generate a smooth s-curve transition between card centers
       const cx1 = prev.x;
       const cy1 = (prev.y + curr.y) / 2;
       const cx2 = curr.x;
@@ -113,7 +123,7 @@ export function ProjectsPage() {
   const pathString = getPathString();
 
   return (
-    <Box component="main" sx={{ py: { xs: 4, md: 6 } }}>
+    <main className={`${styles.page} page-transition-enter`}>
       <Container maxWidth="lg">
         <PageHeader
           eyebrow="projects"
@@ -122,20 +132,9 @@ export function ProjectsPage() {
         />
 
         {/* Trail container */}
-        <Box sx={{ position: "relative", width: "100%", mt: 2 }} ref={containerRef}>
-          
+        <div className={styles.trailContainer} ref={containerRef}>
           {/* SVG Trail rendering behind the cards */}
-          <svg
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              pointerEvents: "none",
-              zIndex: 0,
-            }}
-          >
+          <svg className={styles.trailSvg}>
             <defs>
               <linearGradient id="trailGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#10b981" />
@@ -152,6 +151,8 @@ export function ProjectsPage() {
               <>
                 {/* Glow Path backing */}
                 <path
+                  ref={trailGlowRef}
+                  className={styles.trailPathGlow}
                   d={pathString}
                   fill="none"
                   stroke="url(#trailGradient)"
@@ -159,9 +160,11 @@ export function ProjectsPage() {
                   opacity={0.15}
                   style={{ filter: "url(#glow)" }}
                 />
-                
+
                 {/* Dashed Trail */}
                 <path
+                  ref={trailRef}
+                  className={styles.trailPathDashed}
                   d={pathString}
                   fill="none"
                   stroke="url(#trailGradient)"
@@ -182,51 +185,15 @@ export function ProjectsPage() {
           </svg>
 
           {/* Start Node: git init */}
-          <Box
-            ref={startRef}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mb: 5,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            <Box
-              sx={{
-                px: 2,
-                py: 0.75,
-                borderRadius: "20px",
-                border: "1px solid",
-                borderColor: "primary.main",
-                bgcolor: isDark ? "rgba(16, 185, 129, 0.12)" : "rgba(16, 185, 129, 0.05)",
-                color: "primary.main",
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.72rem",
-                fontWeight: 600,
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                boxShadow: isDark
-                  ? "0 0 15px rgba(16, 185, 129, 0.15)"
-                  : "0 0 10px rgba(16, 185, 129, 0.08)",
-              }}
-            >
-              <Box
-                sx={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  bgcolor: "#10b981",
-                  boxShadow: "0 0 8px #10b981",
-                }}
-              />
+          <div className={styles.startNodeWrapper} ref={startRef}>
+            <div className={styles.startPill}>
+              <span className={styles.startDot} />
               git init --start
-            </Box>
-          </Box>
+            </div>
+          </div>
 
           {/* Projects Grid */}
-          <Grid container spacing={4} sx={{ position: "relative", zIndex: 1 }}>
+          <Grid container spacing={4} className={styles.projectsGrid}>
             {projects.map((project, index) => (
               <ProjectCard
                 key={project.title}
@@ -238,51 +205,14 @@ export function ProjectsPage() {
           </Grid>
 
           {/* End Node: git commit */}
-          <Box
-            ref={endRef}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 6,
-              pb: 2,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            <Box
-              sx={{
-                px: 2,
-                py: 0.75,
-                borderRadius: "20px",
-                border: "1px solid",
-                borderColor: "#3b82f6",
-                bgcolor: isDark ? "rgba(59, 130, 246, 0.12)" : "rgba(59, 130, 246, 0.05)",
-                color: "#3b82f6",
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.72rem",
-                fontWeight: 600,
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-                boxShadow: isDark
-                  ? "0 0 15px rgba(59, 130, 246, 0.15)"
-                  : "0 0 10px rgba(59, 130, 246, 0.08)",
-              }}
-            >
-              <Box
-                sx={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  bgcolor: "#3b82f6",
-                  boxShadow: "0 0 8px #3b82f6",
-                }}
-              />
-              git commit -m "ship_it 🚀"
-            </Box>
-          </Box>
-        </Box>
+          <div className={styles.endNodeWrapper} ref={endRef}>
+            <div className={styles.endPill}>
+              <span className={styles.endDot} />
+              git commit -m &quot;ship_it 🚀&quot;
+            </div>
+          </div>
+        </div>
       </Container>
-    </Box>
+    </main>
   );
 }

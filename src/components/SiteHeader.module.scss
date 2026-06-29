@@ -1,0 +1,141 @@
+.appBar {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  background: transparent;
+  color: var(--text-primary);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.toolbar {
+  min-height: 64px;
+  gap: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.comment {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  user-select: none;
+
+  @media (max-width: 599.95px) {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navLink {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  transition: color 150ms ease;
+  position: relative;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.navLinkActive {
+  composes: navLink;
+  color: var(--accent);
+  font-weight: 700;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: var(--radius-pill);
+  }
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.socialButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 200ms ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.socialIcon {
+  font-size: 20px;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--border-color);
+  margin: 0 6px;
+}
+
+.themeToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  color: var(--text-secondary);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 200ms ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.themeIcon {
+  font-size: 20px;
+}

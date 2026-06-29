@@ -1,0 +1,111 @@
+.terminal {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--terminal-body);
+  backdrop-filter: blur(12px);
+  transition: border-color 300ms ease, box-shadow 300ms ease,
+    transform 200ms ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* ── Title Bar ────────────────────────────────────────── */
+.titleBar {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--terminal-titlebar);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotRed {
+  background-color: #ef4444;
+}
+
+.dotYellow {
+  background-color: #eab308;
+}
+
+.dotGreen {
+  background-color: #22c55e;
+}
+
+.titlePath {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  opacity: 0.6;
+  margin-left: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statusBadge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    box-shadow: 0 0 6px var(--accent-glow);
+    animation: subtlePulse 2s ease-in-out infinite;
+  }
+}
+
+/* ── Body ─────────────────────────────────────────────── */
+.body {
+  padding: 20px 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 600px) {
+    padding: 20px;
+  }
+}
+
+/* ── Command Prompt ───────────────────────────────────── */
+.commandLine {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.prompt {
+  color: var(--accent);
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,199 @@
+/* ── HomePage Styles ──────────────────────────────────── */
+
+.page {
+  padding: 48px 0;
+
+  @media (min-width: 900px) {
+    padding: 80px 0;
+  }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.fadeInUpDelay {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ── Eyebrow ─────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+  margin-bottom: 16px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* ── Heading ─────────────────────────────────────────── */
+.heading {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+  min-height: 2.8rem;
+
+  @media (min-width: 600px) {
+    font-size: 2.5rem;
+    min-height: 3.4rem;
+  }
+
+  @media (min-width: 900px) {
+    font-size: 3rem;
+    min-height: 4rem;
+  }
+}
+
+.worldGradient {
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cursor {
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+/* ── Subtitle ────────────────────────────────────────── */
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  margin-bottom: 32px;
+  color: var(--text-secondary);
+
+  @media (min-width: 900px) {
+    font-size: 1rem;
+  }
+}
+
+/* ── About ───────────────────────────────────────────── */
+.about {
+  max-width: 580px;
+  line-height: 1.85;
+  font-size: 1rem;
+  margin-bottom: 32px;
+  color: var(--text-primary);
+
+  @media (min-width: 900px) {
+    font-size: 1.06rem;
+  }
+}
+
+/* ── Interest Tags ───────────────────────────────────── */
+.tagsRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  padding: 6px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  color: var(--accent-tag-text);
+  background-color: var(--accent-tag-bg);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Profile Photo ───────────────────────────────────── */
+.photo {
+  width: 300px;
+  height: 300px;
+  border-radius: 14px;
+  border: 2px solid var(--accent-dim);
+  object-fit: cover;
+  box-shadow: 0 0 60px rgba(16, 185, 129, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: all 300ms ease;
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 80px rgba(16, 185, 129, 0.15),
+      0 20px 40px rgba(0, 0, 0, 0.15);
+    transform: scale(1.03);
+  }
+}
+
+/* ── Terminal Tagline ────────────────────────────────── */
+.terminalTagline {
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  width: 280px;
+  animation: pulseGlow 3s ease-in-out infinite;
+
+  @media (min-width: 600px) {
+    width: 320px;
+  }
+}
+
+.taglineText {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  transition: opacity 300ms ease;
+}
+
+.taglinePrompt {
+  color: var(--text-secondary);
+  margin-right: 8px;
+}
+
+/* ── Brand Init ──────────────────────────────────────── */
+.brandInit {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+/* ── Keyframes ───────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15),
+      0 0 40px rgba(16, 185, 129, 0.05);
+  }
+}
