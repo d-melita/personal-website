@@ -1,10 +1,3 @@
-import {
-  AppBar,
-  Container,
-  IconButton,
-  Toolbar,
-  Tooltip,
-} from "@mui/material";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -38,9 +31,9 @@ export function SiteHeader() {
   const { isDark, toggleMode } = useThemeMode();
 
   return (
-    <AppBar component="header" position="sticky" className={styles.appBar}>
-      <Container maxWidth="lg">
-        <Toolbar disableGutters className={styles.toolbar}>
+    <header className={styles.appBar}>
+      <div className={styles.container}>
+        <div className={styles.toolbar}>
           {/* Left: nav comment + links */}
           <div className={styles.leftSection}>
             <span className={styles.comment}>{"//"}</span>
@@ -66,27 +59,24 @@ export function SiteHeader() {
           {/* Right: social icons + theme toggle */}
           <div className={styles.rightSection}>
             {socialIcons.map((social) => (
-              <Tooltip key={social.label} title={social.label} arrow>
-                <IconButton
-                  component="a"
-                  href={social.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  aria-label={social.label}
-                  size="small"
-                  className={styles.socialButton}
-                >
-                  <social.icon className={styles.socialIcon} />
-                </IconButton>
-              </Tooltip>
+              <a
+                key={social.label}
+                href={social.href}
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={social.label}
+                title={social.label}
+                className={styles.socialButton}
+              >
+                <social.icon className={styles.socialIcon} />
+              </a>
             ))}
 
             <span className={styles.divider} />
 
-            <IconButton
+            <button
               aria-label="toggle theme"
               onClick={toggleMode}
-              size="small"
               className={styles.themeToggle}
             >
               {isDark ? (
@@ -94,10 +84,10 @@ export function SiteHeader() {
               ) : (
                 <DarkModeOutlinedIcon className={styles.themeIcon} />
               )}
-            </IconButton>
+            </button>
           </div>
-        </Toolbar>
-      </Container>
-    </AppBar>
+        </div>
+      </div>
+    </header>
   );
 }

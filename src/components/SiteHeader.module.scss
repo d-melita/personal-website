@@ -1,11 +1,18 @@
 .appBar {
-  &#{&} {
-    background: var(--header-bg);
-    color: var(--text-primary);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: none;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  background: transparent;
+  color: var(--text-primary);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .toolbar {
@@ -81,16 +88,21 @@
 }
 
 .socialButton {
-  &#{&} {
-    color: var(--text-secondary);
-    width: 36px;
-    height: 36px;
-    transition: all 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 200ms ease;
 
-    &:hover {
-      color: var(--accent);
-      background-color: transparent;
-    }
+  &:hover {
+    color: var(--accent);
   }
 }
 
@@ -106,17 +118,21 @@
 }
 
 .themeToggle {
-  &#{&} {
-    border-radius: 10px;
-    width: 36px;
-    height: 36px;
-    color: var(--text-secondary);
-    transition: all 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  color: var(--text-secondary);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 200ms ease;
 
-    &:hover {
-      color: var(--accent);
-      background-color: transparent;
-    }
+  &:hover {
+    color: var(--accent);
   }
 }
 
